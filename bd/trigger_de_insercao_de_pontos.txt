@@ -1,0 +1,12 @@
+DELIMITER //
+
+CREATE TRIGGER insert_pontos_auto
+AFTER INSERT ON utilizadores
+FOR EACH ROW
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pontuacoes WHERE utilizador_id = NEW.id) THEN
+        INSERT INTO pontuacoes(utilizador_id, ponto) VALUES (NEW.id, 0);
+    END IF;
+END //
+
+DELIMITER ;
